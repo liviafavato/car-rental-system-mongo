@@ -14,18 +14,17 @@ ctrl_carro = Controller_Carro()
 ctrl_funcionario = Controller_Funcionario()
 ctrl_locacao = Controller_Locacao()
 
-
 def reports(opcao_relatorio: int = 0):
     if opcao_relatorio == 1:
-        relatorio.get_relatorio_clientes() 
+        relatorio.get_relatorio_clientes()
     elif opcao_relatorio == 2:
-        relatorio.get_relatorio_carros_sistema() 
+        relatorio.get_relatorio_carros_sistema()
     elif opcao_relatorio == 3:
-        relatorio.get_relatorio_funcionarios() 
+        relatorio.get_relatorio_funcionarios()
     elif opcao_relatorio == 4:
-        relatorio.get_relatorio_locacao() 
+        relatorio.get_relatorio_locacao()
     elif opcao_relatorio == 5:
-        relatorio.get_relatorio_total_valor_diarias() 
+        relatorio.get_relatorio_total_valor_diarias()
 
 def inserir(opcao_inserir: int = 0):
     if opcao_inserir == 1:
@@ -36,8 +35,7 @@ def inserir(opcao_inserir: int = 0):
         ctrl_funcionario.inserir_funcionario()
     elif opcao_inserir == 4:
         ctrl_locacao.inserir_locacao()
-
-
+        
 def atualizar(opcao_atualizar: int = 0):
     if opcao_atualizar == 1:
         relatorio.get_relatorio_clientes()
@@ -51,7 +49,6 @@ def atualizar(opcao_atualizar: int = 0):
     elif opcao_atualizar == 4:
         relatorio.get_relatorio_locacao()
         ctrl_locacao.atualizar_locacao()
-
 
 def excluir(opcao_excluir: int = 0):
     if opcao_excluir == 1:
@@ -75,20 +72,40 @@ def run():
 
     while True:
         print(config.MENU_PRINCIPAL)
-        opcao = int(input("Escolha uma opção [1-5]: "))
+
+        try:
+            opcao = int(input("Escolha uma opção [1-5]: "))
+        except ValueError:
+            print("Entrada inválida! Digite apenas números.")
+            time.sleep(1)
+            config.clear_console()
+            continue
+
         config.clear_console(1)
 
         if opcao == 1:
             print(config.MENU_RELATORIOS)
-            opcao_relatorio = int(input("Escolha uma opção [1-6]: "))
+            try:
+                opcao_relatorio = int(input("Escolha uma opção [1-5]: "))
+            except ValueError:
+                print("Entrada inválida.")
+                config.clear_console(2)
+                continue
+
             config.clear_console(1)
-            if opcao_relatorio != 0:
+            if 1 <= opcao_relatorio <= 5:
                 reports(opcao_relatorio)
             config.clear_console()
 
         elif opcao == 2:
             print(config.MENU_ENTIDADES)
-            opcao_inserir = int(input("Escolha uma opção [1-5]: "))
+            try:
+                opcao_inserir = int(input("Escolha uma opção [1-4]: "))
+            except ValueError:
+                print("Entrada inválida.")
+                config.clear_console(2)
+                continue
+
             config.clear_console(1)
             inserir(opcao_inserir)
             config.clear_console()
@@ -98,7 +115,13 @@ def run():
 
         elif opcao == 3:
             print(config.MENU_ENTIDADES)
-            opcao_atualizar = int(input("Escolha uma opção [1-4]: "))
+            try:
+                opcao_atualizar = int(input("Escolha uma opção [1-4]: "))
+            except ValueError:
+                print("Entrada inválida.")
+                config.clear_console(2)
+                continue
+
             config.clear_console(1)
             atualizar(opcao_atualizar)
             config.clear_console()
@@ -106,9 +129,16 @@ def run():
             time.sleep(1)
             config.clear_console()
 
+        # ------------------ EXCLUIR ------------------
         elif opcao == 4:
             print(config.MENU_ENTIDADES)
-            opcao_excluir = int(input("Escolha uma opção [1-4]: "))
+            try:
+                opcao_excluir = int(input("Escolha uma opção [1-4]: "))
+            except ValueError:
+                print("Entrada inválida.")
+                config.clear_console(2)
+                continue
+
             config.clear_console(1)
             excluir(opcao_excluir)
             config.clear_console()
@@ -126,6 +156,7 @@ def run():
         else:
             print("Opção inválida. Tente novamente.")
             config.clear_console(2)
+
 
 if __name__ == "__main__":
     run()
