@@ -1,19 +1,21 @@
 from conexion.oracle_queries import OracleQueries
-from utils import config
 
 class SplashScreenLocadora:
     def __init__(self):
+        self.nome_sistema = "SISTEMA DE LOCAÇÃO DE VEÍCULOS"
+
         self.created_by = (
-           ' Emanoel Vitor V. Atanazio | Felipe R. Barzilai'
-           '\n\t\t\tJoão Emanoel Justino | Livia Favato B. Neves'
+           'Emanoel Vitor V. Atanazio'
+           '\n\t\t\tFelipe R. Barzilai'
+           '\n\t\t\tJoão Emanoel Justino'
+           '\n\t\t\tLivia Favato B. Neves'
            '\n\t\t\tRogeres Jose P. da Silva\n'
         )
+
         self.professor = "Howard Roatti"
-        self.disciplina = "Banco de Dados\t2025/2"
-       
+        self.disciplina = "Banco de Dados 2025/2"
 
     def get_total(self, tabela: str):
-        """Retorna o total de registros de uma tabela"""
         oracle = OracleQueries()
         oracle.connect()
         df = oracle.sqlToDataFrame(
@@ -22,25 +24,26 @@ class SplashScreenLocadora:
         return df[f"total_{tabela}"].values[0]
 
     def get_updated_screen(self):
-        """Retorna a splash screen atualizada com os totais"""
-        total_clientes = str(self.get_total('clientes')).rjust(5)
-        total_carros = str(self.get_total('carros')).rjust(5)
-        total_funcionarios = str(self.get_total('funcionarios')).rjust(5)
-        total_locacoes = str(self.get_total('locacoes')).rjust(5)
+        total_clientes = str(self.get_total('clientes'))
+        total_carros = str(self.get_total('carros'))
+        total_funcionarios = str(self.get_total('funcionarios'))
+        total_locacoes = str(self.get_total('locacoes'))
 
         return f"""
-        ================= SISTEMA DE LOCAÇÃO DE VEÍCULOS =================
-                                                                     
-         TOTAL DE REGISTROS:                                             
-            1 - CLIENTES:        {total_clientes}                   
-            2 - CARROS:          {total_carros}                       
-            3 - FUNCIONÁRIOS:    {total_funcionarios}               
-            4 - LOCAÇÕES:        {total_locacoes}                   
-                                                                     
-           CRIADO POR: {self.created_by}                         
-           PROFESSOR:  {self.professor}                               
-           DISCIPLINA: {self.disciplina}                              
-                                                     
-         ==============================================================
-
-        """
+##############################################################################
+                           {self.nome_sistema.center(36)}                   
+                                                                            
+                    TOTAL DE REGISTROS EXISTENTES                           
+                                                                            
+    1 - CLIENTES:        {total_clientes.ljust(5)}                          
+    2 - CARROS:          {total_carros.ljust(5)}                             
+    3 - FUNCIONÁRIOS:    {total_funcionarios.ljust(5)}                       
+    4 - LOCAÇÕES:        {total_locacoes.ljust(5)}                           
+                                                                            
+    CRIADO POR: {self.created_by.strip()}     
+                                                                            
+    DISCIPLINA: {self.disciplina}                                           
+    PROFESSOR:  {self.professor}                                            
+                                                                            
+##############################################################################
+"""
